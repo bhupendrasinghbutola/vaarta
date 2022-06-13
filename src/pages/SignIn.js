@@ -1,26 +1,62 @@
 import React from 'react'
- import { Container, Grid, Row, Col, Panel,Button,Icon } from 'rsuite'
-
-
+import firebase from 'firebase/app'
+ import { Container, Grid, Row, Col, Panel,Button,Icon, Alert } from 'rsuite'
+import {auth, database} from '../misc/firebase'
+ 
 
 const SignIn = () => {
+
+  const signInProvider=  async(provider)=>{
+
+try {
+  const {additionalUserInfo,user}=await  auth.signInWithPopup(provider);
+  Alert.success('Signed',4000);
+  if(additionalUserInfo.isNewUser){
+     await database.ref(`profiles/${user.uid}`).set({
+      name:user.displayName,
+      // here using another static TIMESTAMP like provider for firebase
+      createdAt:firebase.database.ServerValue.TIMESTAMP
+
+    })
+  }
+  
+
+} catch (err) {
+  Alert.info(err.message,4000);
+  
+}// console.log('result',result);
+};
+
+   const signInWithFacebook =()=>{
+   signInProvider(new firebase.auth.FacebookAuthProvider());
+  }
+ const signInWithGoogle=()=>{
+   signInProvider(new firebase.auth.GoogleAuthProvider());
+ 
+ }
+ 
+
+
+
+
+
   return <Container>
-<Grid >
+<Grid  className='mt-page'>
   <Row>
     <Col  xs={24} md={12} mdOffset={6}>
     <Panel> 
-      <div>
+      <div className='text-center'>
 
 <h1 className='text-center'>Welcome to Chat</h1>
 <p>Progressive Chat platform.</p>
 
-      </div>
-<div>
-<Button block color="blue">
+      </div >
+<div className='mt-3'>
+<Button block color="blue" onClick={signInWithFacebook}>
   <Icon icon="facebook"/> Continue with facebook
 </Button>
 
-<Button block color="green">
+<Button block color="green" onClick={signInWithGoogle}>
   <Icon  icon="google"/> Continue with Google
 </Button>
 

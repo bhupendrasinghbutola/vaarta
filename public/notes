@@ -1,2 +1,3 @@
 in place of bootsrap we  use ReactSuite{it contains predefined components} as in grid element is has 24 cols whereas in bootsrap has only 12. 
 Panel component help to add padding to the Grid
+provider is file in firebase/app whic is static in nature
