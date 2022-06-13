@@ -1,3 +1,4 @@
 in place of bootsrap we  use ReactSuite{it contains predefined components} as in grid element is has 24 cols whereas in bootsrap has only 12. 
 Panel component help to add padding to the Grid
-provider is file in firebase/app whic is static in nature
+provider is file in firebase/app whic is static in nature.
+Context api is used to reduce the props drilling as in the root to last children it is difficult to go to last child using prop.    it use two things producer(it is the component which is used to oldest children with some value or context ) and consumer(which is used to consumes thecontext and gets the value.)
