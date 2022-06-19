@@ -1,4 +1,4 @@
-import { useState ,useCallback} from "react"
+import { useState ,useCallback, useEffect,querryList} from "react"
 
 
  export function  useModalState(defaultValue=false){
@@ -8,4 +8,21 @@ import { useState ,useCallback} from "react"
     
     return {isOpen,open,close}
     
+}
+
+// hooks for media querry 
+export  const useMediaQuerry= querry =>{
+    const[matches,setMatches]=useState(
+        ()=> window.matchMedia(querry).matches
+    );
+    useEffect(() =>{
+        const queryList=window.matchMedia(querry);
+        setMatches(queryList.matches);
+     
+    // );
+    const listner =evt => setMatches(evt.mathces);
+    return () => querryList.removeListner(listner); 
+},[querry]);
+
+return matches;
 }
