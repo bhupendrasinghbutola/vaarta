@@ -1,4 +1,4 @@
-import { useState ,useCallback, useEffect,querryList} from "react"
+import { useState ,useEffect,useCallback} from "react"
 
 
  export function  useModalState(defaultValue=false){
@@ -20,8 +20,9 @@ export  const useMediaQuerry= querry =>{
         setMatches(queryList.matches);
      
     // );
-    const listner =evt => setMatches(evt.mathces);
-    return () => querryList.removeListner(listner); 
+    const listener = evt => setMatches(evt.mathces);
+    queryList.addListener(listener);
+    return () => queryList.removeListener(listener); 
 },[querry]);
 
 return matches;

@@ -11,7 +11,7 @@ export const ProfileProvider = ({children}) => {
     const[isLoading,setIsLoading]= useState(true);
     
     useEffect(() =>{ let userRef;
-        const authunSubs=  auth.onAuthStateChanged(authObj=>{
+        const authUnSubs=  auth.onAuthStateChanged(authObj=>{
               // console.log('authobj', authObj);
               if(authObj){
                     userRef=  database.ref(`/profiles/${authObj.uid}`)
@@ -42,7 +42,7 @@ export const ProfileProvider = ({children}) => {
               }
           })
           return () =>{
-              authunSubs();
+              authUnSubs();
               if(userRef){
                   userRef.off();
 }
