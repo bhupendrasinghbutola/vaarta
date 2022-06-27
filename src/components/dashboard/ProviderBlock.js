@@ -38,10 +38,10 @@ const ProviderBlock = () => {
     }
     
            const linkFacebook=()=>{
-            link(new firebase.auth.FacebookAuthProvider)
+            link(new firebase.auth.FacebookAuthProvider())
            }
            const linkGoogle=()=>{
-            link(new firebase.auth.GoogleAuthProvider)
+            link(new firebase.auth.GoogleAuthProvider())
     
            }
     
@@ -76,14 +76,14 @@ const ProviderBlock = () => {
        return (
         <div>
 
-            {isConnected["google.com"] &&
+            {!isConnected["google.com"] &&
                <Tag color='green' closable onClose={unlinkGoogle}>
 
                <Icon icon='google' /> Connnected
                
                            </Tag>}
 
-                           {isConnected['facebook.com']&&
+                           {!isConnected['facebook.com']&&
                            <Tag color='blue' closable onClose={unlinkFacebook}>
 
                            <Icon icon='facebook' /> Connnected
@@ -91,13 +91,13 @@ const ProviderBlock = () => {
                                        </Tag>}
          
        <div className='mt-2'>
-        {!isConnected && 
+        {isConnected && 
         <Button block color='green'  onClick={linkGoogle}>
         <Icon icon='google'/> Link to Google
     </Button>
     
     }
-        {!isConnected &&
+        {isConnected &&
         <Button block color='blue'  onClick={linkFacebook}>
         <Icon icon='facebook'/> Link to Facebook
 

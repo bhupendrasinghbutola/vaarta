@@ -1,23 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState,useRef } from 'react';
 import { Modal, Button, Alert } from 'rsuite';
 import AvatarEditor from 'react-avatar-editor';
-// import {
-//   getDownloadURL,
-//   ref as storageRef,
-//   uploadBytes,
-// } from 'firebase/storage';
-// import { ref as dbRef, update } from 'firebase/database';
+import {
+  getDownloadURL,
+  ref as storageRef,
+  uploadBytes,
+} from 'firebase/storage';
+ import { ref as dbRef, update } from 'firebase/database';
 import { useModalState } from '../../misc/custom-hooks';
-// import { storage, database } from '../../misc/firebase';
-// import { useProfile } from '../../context/profile.context';
-// import ProfileAvatar from '../ProfileAvatar';
-// import { getUserUpdates } from '../../misc/helpers';
+ import { storage,database } from '../../misc/firebase';
+ import { useProfile } from '../../context/profile.context';
+ import ProfileAvatar from '../ProfileAvatar';
+  import { getUserUpdates } from '../../misc/helpers';
+  
 
 const fileInputTypes = '.png, .jpeg, .jpg';
 
 const acceptedFileTypes = ['image/png', 'image/jpeg', 'image/pjpeg'];
 const isValidFile = file => acceptedFileTypes.includes(file.type);
-//blob is used to convert image into binary form
+
 const getBlob = canvas => {
   return new Promise((resolve, reject) => {
     canvas.toBlob(blob => {
@@ -32,9 +33,10 @@ const getBlob = canvas => {
 
 const AvatarUploadBtn = () => {
   const { isOpen, open, close } = useModalState();
+
   const { profile } = useProfile();
   const [img, setImg] = useState(null);
-//   const [isLoading, setIsLoading] = useState(false);
+   const [isLoading, setIsLoading] = useState(false);
    const avatarEditorRef = useRef();
 
   const onFileInputChange = ev => {
@@ -69,32 +71,33 @@ const AvatarUploadBtn = () => {
         cacheControl: `public, max-age=${3600 * 24 * 3}`,
       });
 
-//       const downloadUrl = await getDownloadURL(avatarFileRef);
+       const downloadUrl = await getDownloadURL(avatarFileRef);
+       
 
-//       const updates = await getUserUpdates(
-//         profile.uid,
-//         'avatar',
-//         downloadUrl,
-//         database
-//       );
+      const updates = await getUserUpdates(
+        profile.uid,
+        'avatar',
+        downloadUrl,
+        database
+      );
 
-//       await update(dbRef(database), updates);
+      await update(dbRef(database), updates);
 
-//       setIsLoading(false);
-//       Alert.info('Avatar has been uploaded', 4000);
-//     } catch (err) {
-//       setIsLoading(false);
-//       Alert.error(err.message, 4000);
-//     }
-//   };
+      setIsLoading(false);
+      Alert.info('Avatar has been uploaded', 4000);
+    } catch (err) {
+      setIsLoading(false);
+      Alert.error(err.message, 4000);
+    }
+  };
 
   return (
     <div className="mt-3 text-center">
-      {/* <ProfileAvatar
-        // src={profile.avatar}
-        // name={profile.name}
-        // className="width-200 height-200 img-fullsize font-huge"
-      /> */}
+       <ProfileAvatar
+        src={profile.avatar}
+        name={profile.name}
+         className="width-200 height-200 img-fullsize font-huge"
+      /> 
 
       <div>
         <label
@@ -135,7 +138,7 @@ const AvatarUploadBtn = () => {
               block
               appearance="ghost"
                onClick={onUploadClick}
-            //   disabled={isLoading}
+              disabled={isLoading}
             >
               Upload new avatar
             </Button>
