@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import 'firebase/auth';
 import 'firebase/database';
+import 'firebase/storage'
 // import App from "../App";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -20,4 +21,5 @@ const config = {
 const app = firebase.initializeApp(config);
 export const auth =app.auth();
 export const database= app.database();
+export const storage =app.storage();
 

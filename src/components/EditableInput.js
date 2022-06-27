@@ -2,22 +2,28 @@ import React, { useCallback, useState } from 'react'
 import { Alert, Icon, Input, InputGroup } from 'rsuite'
 
 
-const EditableInput = ({
-  initialValue,
-  onSave,
-  label=null,
-placeholder="Write you value",
-  emptyMsg="Input is empty",
-...inputProps
-}) => {
+const EditableInput = ({initialValue,onSave,
+    label=null,
+    placeholder='write your value',
+    emptyMsg='Input is empty',
+     ...inputProps
+
+}) =>{
+  
+   
+   
+ 
+  
+  
   const [input,setInput] = useState(initialValue);
-  const[isEditable,setIsEditable]= useState(false)
-const onInputChange= useCallback((value)=>{
+  const[isEditable,setIsEditable]= useState(false); 
+
+  const onInputChange= useCallback((value)=>{
     setInput(value);
 },[])
 
 const onEditClick= useCallback(()=>{
-  setIsEditable(p=>!p)
+  setIsEditable(p => !p)
   setInput(initialValue)
 },[initialValue])
   // it is reverse the value of our current state//
@@ -26,7 +32,7 @@ const onEditClick= useCallback(()=>{
 const onSaveClick =async ()=>{
   const trimmed= input.trim();
   if(trimmed === ''){
-    Alert.info(emptyMsg,2000);
+    Alert.info(emptyMsg,4000);
   }
 
     if(trimmed !== initialValue){
@@ -51,7 +57,7 @@ value={input}
 onChange={onInputChange} />
 
 <InputGroup.Button onClick={onEditClick}>
-<Icon icon={isEditable? 'close':'edit2'}/>
+<Icon icon={isEditable ? 'close':'edit2'}/>
 </InputGroup.Button>
 
 {isEditable &&
@@ -67,8 +73,8 @@ onChange={onInputChange} />
 
   </div>
   )
-  
-  
 }
+  
 
-export default EditableInput
+
+export default EditableInput;
