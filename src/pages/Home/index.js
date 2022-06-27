@@ -4,8 +4,7 @@ import { Grid,Row,Col} from 'rsuite';
 import Sidebar from '../../components/Sidebar';
 import { RoomsProvider } from '../../context/room.context';
 import Chat from './Chat';
-import { useMediaQuerry } from '../../misc/custom-hooks';
-
+import  useMediaQuery  from '../../misc/custom-hooks';
 
 
 const Home = () => {
