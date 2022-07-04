@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import 'firebase/auth';
 import 'firebase/database';
-import 'firebase/storage'
+import 'firebase/storage';
 // import App from "../App";
 
 // TODO: Add SDKs for Firebase products that you want to use

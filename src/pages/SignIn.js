@@ -6,7 +6,7 @@ import {auth, database} from '../misc/firebase'
 
 const SignIn = () => {
 
-  const signInProvider=  async(provider)=>{
+  const signInWithProvider=  async(provider)=>{
 
 try {
   const {additionalUserInfo,user}=await  auth.signInWithPopup(provider);
@@ -27,11 +27,11 @@ try {
 }// console.log('result',result);
 };
 
-   const signInWithFacebook =()=>{
-   signInProvider(new firebase.auth.FacebookAuthProvider());
+   const onFacebookSignIn =()=>{
+   signInWithProvider(new firebase.auth.FacebookAuthProvider());
   }
- const signInWithGoogle=()=>{
-   signInProvider(new firebase.auth.GoogleAuthProvider());
+ const onGoogleSignIn=()=>{
+   signInWithProvider(new firebase.auth.GoogleAuthProvider());
  
  }
  
@@ -52,11 +52,11 @@ try {
 
       </div >
 <div className='mt-3'>
-<Button block color="blue" onClick={signInWithFacebook}>
+<Button block color="blue" onClick={onFacebookSignIn}>
   <Icon icon="facebook"/> Continue with facebook
 </Button>
 
-<Button block color="green" onClick={signInWithGoogle}>
+<Button block color="green" onClick={onGoogleSignIn}>
   <Icon  icon="google"/> Continue with Google
 </Button>
 

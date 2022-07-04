@@ -39,7 +39,7 @@ return (
       <Divider/>
      <EditableInput
       name="nickname"
-      initialValue={profile.value}
+      initialValue={profile.name}
       onSave={onSave}
       // mb stand for margin bottom//
       label={<h6 className="mb-2">Nickname</h6>}

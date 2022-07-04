@@ -1,18 +1,18 @@
-import React, { useState,useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { Modal, Button, Alert } from 'rsuite';
 import AvatarEditor from 'react-avatar-editor';
-import {
-  getDownloadURL,
-  ref as storageRef,
-  uploadBytes,
-} from 'firebase/storage';
- import { ref as dbRef, update } from 'firebase/database';
+// import {
+//   getDownloadURL,
+//   ref as storageRef,
+//   uploadBytes,
+// } from 'firebase/storage';
+// import { ref as dbRef, update } from 'firebase/database';
 import { useModalState } from '../../misc/custom-hooks';
- import { storage,database } from '../../misc/firebase';
- import { useProfile } from '../../context/profile.context';
- import ProfileAvatar from '../ProfileAvatar';
-  import { getUserUpdates } from '../../misc/helpers';
-  
+import { storage, database } from '../../misc/firebase';
+import { useProfile } from '../../context/profile.context';
+import ProfileAvatar from  './ProfileAvatar';
+// import { getNameInitials } from '../../misc/helper' ;
+
 
 const fileInputTypes = '.png, .jpeg, .jpg';
 
@@ -36,8 +36,8 @@ const AvatarUploadBtn = () => {
 
   const { profile } = useProfile();
   const [img, setImg] = useState(null);
-   const [isLoading, setIsLoading] = useState(false);
-   const avatarEditorRef = useRef();
+  const [isLoading, setIsLoading] = useState(false);
+  const avatarEditorRef = useRef();
 
   const onFileInputChange = ev => {
     const currFiles = ev.target.files;
@@ -62,26 +62,27 @@ const AvatarUploadBtn = () => {
     try {
       const blob = await getBlob(canvas);
 
-      const avatarFileRef = storageRef(
-        storage,
-        `/profile/${profile.uid}/avatar`
-      );
+      // const avatarFileRef = storageRef(
+      //   storage,
+      //   `/profile/${profile.uid}/avatar`
+      // );
 
-      await uploadBytes(avatarFileRef, blob, {
-        cacheControl: `public, max-age=${3600 * 24 * 3}`,
-      });
+      const avatarFileRef =storage.ref(`/profile/${profile.uid}`).child('avatar');
+      const uploadAvatarResult =await avatarFileRef.put(blob, {
+        cacheControl: `public, max-age=${3600 * 24 * 3}`
+      })
 
-       const downloadUrl = await getDownloadURL(avatarFileRef);
-       
+      // await uploadBytes(avatarFileRef, blob, {
+      //   cacheControl: `public, max-age=${3600 * 24 * 3}`,
+      // });
 
-      const updates = await getUserUpdates(
-        profile.uid,
-        'avatar',
-        downloadUrl,
-        database
-      );
+      const downloadUrl = await uploadAvatarResult.ref.getDownloadURL() ;
+      const userAvatarRef =database
+      .ref(`/profiles/${profile.uid}`)
+      .child('avatar');
 
-      await update(dbRef(database), updates);
+      userAvatarRef.set(downloadUrl);
+
 
       setIsLoading(false);
       Alert.info('Avatar has been uploaded', 4000);
@@ -93,11 +94,11 @@ const AvatarUploadBtn = () => {
 
   return (
     <div className="mt-3 text-center">
-       <ProfileAvatar
+      <ProfileAvatar
         src={profile.avatar}
         name={profile.name}
-         className="width-200 height-200 img-fullsize font-huge"
-      /> 
+        className="width-200 height-200 img-fullsize font-huge"
+      />
 
       <div>
         <label
@@ -122,7 +123,7 @@ const AvatarUploadBtn = () => {
             <div className="d-flex justify-content-center align-items-center h-100">
               {img && (
                 <AvatarEditor
-                   ref={avatarEditorRef}
+                  ref={avatarEditorRef}
                   image={img}
                   width={200}
                   height={200}
@@ -137,7 +138,7 @@ const AvatarUploadBtn = () => {
             <Button
               block
               appearance="ghost"
-               onClick={onUploadClick}
+              onClick={onUploadClick}
               disabled={isLoading}
             >
               Upload new avatar

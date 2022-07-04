@@ -23,6 +23,32 @@ const ProviderBlock = () => {
         })
        }
 
+     
+
+
+       const unlink = async (providerId) =>{
+        try {
+            if(auth.currentUser.providerData.length===1){
+                throw new Error(`You cannot disconnect from ${providerId}`)
+            }
+           await auth.currentUser.unlink(providerId);
+          updateIsConnected(providerId,false); 
+            Alert.info(`disconnected from ${providerId}`,4000);
+
+        } 
+        catch (err) {
+            Alert.error(err.message,4000);
+            
+        }
+
+       }
+       const unlinkFacebook=()=>{
+        unlink('facebook.com')
+       }
+       const unlinkGoogle=()=>{
+        unlink('google.com')
+       }
+        
        const link= async (provider)=>{
         // (new firebase.auth.FacebookAuthProvider)
         try {
@@ -44,75 +70,38 @@ const ProviderBlock = () => {
             link(new firebase.auth.GoogleAuthProvider())
     
            }
-    
 
-
-       const unlink = async (providerId) =>{
-        try {
-            if(auth.currentUser.providerData.length===1){
-                throw new Error(`You cannot disconnect from ${providerId}`)
-            }
-           await auth.currentUser.unlink(providerId);
-
-            updateIsConnected(providerId,false); 
-            Alert.info(`disconnected from ${providerId}`,4000);
-
-        } 
-        catch (err) {
-            Alert.error(err.message,4000);
-            
-        }
-
-       }
-       const unlinkFacebook=()=>{
-        unlink('facebook.com')
-       }
-       const unlinkGoogle=()=>{
-        unlink('google.com')
-       }
 
 
        
        return (
+
         <div>
-
-            {!isConnected["google.com"] &&
-               <Tag color='green' closable onClose={unlinkGoogle}>
-
-               <Icon icon='google' /> Connnected
-               
-                           </Tag>}
-
-                           {!isConnected['facebook.com']&&
-                           <Tag color='blue' closable onClose={unlinkFacebook}>
-
-                           <Icon icon='facebook' /> Connnected
-                           
-                                       </Tag>}
-         
-       <div className='mt-2'>
-        {isConnected && 
-        <Button block color='green'  onClick={linkGoogle}>
-        <Icon icon='google'/> Link to Google
-    </Button>
-    
-    }
-        {isConnected &&
-        <Button block color='blue'  onClick={linkFacebook}>
-        <Icon icon='facebook'/> Link to Facebook
-
-    </Button>
-    }
-
-
-
-            </div>
-
-        
-        </div>
-       )
-    
+        {isConnected['google.com'] && (
+          <Tag color="green" closable onClose={unlinkGoogle}>
+            <Icon icon="google" /> Connected
+          </Tag>
+        )}
+        {isConnected['facebook.com'] && (
+          <Tag color="blue" closable onClose={unlinkFacebook}>
+            <Icon icon="facebook" /> Connected
+          </Tag>
+        )}
   
-}
-
+        <div className="mt-2">
+          {!isConnected['google.com'] && (
+            <Button block color="green" onClick={linkGoogle}>
+              <Icon icon="google" /> Link to Google
+            </Button>
+          )}
+  
+          {!isConnected['facebook.com'] && (
+            <Button block color="blue" onClick={linkFacebook}>
+              <Icon icon="facebook" /> Link to Facebook
+            </Button>
+          )}
+        </div>
+      </div>
+    );
+  };
 export default ProviderBlock

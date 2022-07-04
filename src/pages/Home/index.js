@@ -4,11 +4,11 @@ import { Grid,Row,Col} from 'rsuite';
 import Sidebar from '../../components/Sidebar';
 import { RoomsProvider } from '../../context/room.context';
 import Chat from './Chat';
-import  useMediaQuery  from '../../misc/custom-hooks';
+import  {useMediaQuerry}  from '../../misc/custom-hooks';
 
 
 const Home = () => {
-  const isDesktop = useMediaQuery('(min-width: 992px)');
+  const isDesktop = useMediaQuerry('(min-width: 992px)');
   const { isExact } = useRouteMatch();
 
   const canRenderSidebar = isDesktop || isExact;
