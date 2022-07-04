@@ -1,17 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { Modal, Button, Alert } from 'rsuite';
 import AvatarEditor from 'react-avatar-editor';
-// import {
-//   getDownloadURL,
-//   ref as storageRef,
-//   uploadBytes,
-// } from 'firebase/storage';
-// import { ref as dbRef, update } from 'firebase/database';
 import { useModalState } from '../../misc/custom-hooks';
 import { storage, database } from '../../misc/firebase';
 import { useProfile } from '../../context/profile.context';
 import ProfileAvatar from  './ProfileAvatar';
-// import { getNameInitials } from '../../misc/helper' ;
+ import { getUserUpdates } from '../../misc/helper' ;
 
 
 const fileInputTypes = '.png, .jpeg, .jpg';
@@ -77,11 +71,20 @@ const AvatarUploadBtn = () => {
       // });
 
       const downloadUrl = await uploadAvatarResult.ref.getDownloadURL() ;
-      const userAvatarRef =database
-      .ref(`/profiles/${profile.uid}`)
-      .child('avatar');
 
-      userAvatarRef.set(downloadUrl);
+      const updates=await getUserUpdates(
+        profile.uid,
+        'avatar',
+        downloadUrl,
+        database);
+
+        database.ref().update(updates);
+
+      // const userAvatarRef =database
+      // .ref(`/profiles/${profile.uid}`)
+      // .child('avatar');
+
+      // userAvatarRef.set(downloadUrl);
 
 
       setIsLoading(false);
