@@ -7,3 +7,5 @@ Context api is used to reduce the props drilling as in the root to last children
       // // mb stand for margin bottom//
       // label={<h6 className="mb-2">Nickname</h6>}
     //blob is used to convert image into binary form
+    // why do we use currentRoomContext() instead of useContext() as both are use as the context api. 
+    //Reason:React Context and useContext is often used to avoid prop drilling, however it's known that there's a performance issue. When a context value is changed, all components that useContext will re-render. 
