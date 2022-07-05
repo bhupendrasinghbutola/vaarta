@@ -10,7 +10,9 @@ import EditRoomBtnDrawer from './EditRoomBtnDrawer';
 const Top = () => {
   
   const name=useCurrentRoom(v=>v.name);
+  const isAdmins=useCurrentRoom(v=>v.isAdmins)
   const isMobile=useMediaQuerry('(max-width:992px)');
+
   
 
   return  <div>
@@ -32,7 +34,8 @@ const Top = () => {
           <span className="text-disappear">{name}</span>
         </h4>
         <ButtonToolbar className="ws-nowrap">
-        <EditRoomBtnDrawer/>
+          {isAdmins && <EditRoomBtnDrawer/>}
+        
         </ButtonToolbar>
 </div>
 
@@ -45,5 +48,6 @@ const Top = () => {
   </div>
   
 }
+
 
 export default memo(Top) 
