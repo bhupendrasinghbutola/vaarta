@@ -8,7 +8,7 @@ const EditableInput = ({
   label = null,
   placeholder = 'Write your value',
   emptyMsg = 'Input is empty',
-  wrapperClassName = '',
+  wrapperClassName = "",
   ...inputProps
 }) => {
   const [input, setInput] = useState(initialValue);
