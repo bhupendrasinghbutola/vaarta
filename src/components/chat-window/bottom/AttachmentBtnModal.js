@@ -42,9 +42,9 @@ const AttachmentBtnModal = ({ afterUpload }) => {
         };
       });
 
-      const files = await Promise.all(shapePromises);
+      const file = await Promise.all(shapePromises);
 
-      await afterUpload(files);
+      await afterUpload([file]);
 
       setIsLoading(false);
       close();
