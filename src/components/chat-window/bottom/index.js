@@ -4,6 +4,7 @@ import firebase from 'firebase/app'
 import { useParams } from 'react-router'
 import { useProfile } from '../../../context/profile.context';
 import { database } from '../../../misc/firebase';
+import AttachmentBtnModal from './AttachmentBtnModal';
 
 
 
@@ -73,6 +74,7 @@ const onKeyDown = ev => {
     
     <div>
       <InputGroup>
+      <AttachmentBtnModal/>
       <Input placeholder='Write your new message here...' 
       value={input}
        onChange={onInputChange}
