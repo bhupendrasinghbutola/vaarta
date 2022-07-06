@@ -23,11 +23,11 @@ lastMessage ?
 
 <>
 <div className='d-flex align-item-center'>
-  <ProfileAvatar src={lastMessage.author.avatar} name={lastMessage.author.name} size="sm" />
+  <ProfileAvatar src={lastMessage.author.avatar} name={lastMessage.author?.name} size="sm" />
 </div>
 <div className='text-disappear ml-2'>
-  <div className='italic'>{lastMessage.author.name}</div>
-  <span>{lastMessage.text || lastMessage.file.name}</span>
+  <div className='italic'>{lastMessage.author?.name}</div>
+  <span>{lastMessage.text || lastMessage.file?.name}</span>
 
 </div>
 

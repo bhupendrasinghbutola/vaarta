@@ -1,8 +1,9 @@
+/* eslint-disable consistent-return */
 import React, { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { Alert } from 'rsuite'
-import {auth, database} from  '../../../misc/firebase'
-import { transformToArrWithId } from '../../../misc/helper'
+import {auth, database, storage} from  '../../../misc/firebase'
+import { groupBy, transformToArrWithId } from '../../../misc/helper'
 import MessageItem from './MessageItem'
 
 
@@ -78,38 +79,9 @@ const Message = () => {
     Alert.info(alertMsg, 4000);
   }, []);
 
-  // const handleLike = useCallback(async(msgId)=>{
-  //   const {uid}= auth.currentUser;
-  //   const messageRef= database.ref(`/message/${msgId}`)
-  //   let alertMsg;
-
-  //   await messageRef.transaction(msg=>{
-  //      if(msg){
-
-  //       if(msg.likes && msg.likes[uid]){
-
-  //         msg.likeCount -= 1;
-  //         msg.likes[uid]=null;
-  //         alertMsg='Like Removed'
-  //       }else{
-
-  //         msg.likeCount +=1;
-  //         if(!msg.likes){
-  //           msg.likes={}
-  //         }
-
-  //         msg.likes[uid]= true; 
-  //         alertMsg='Like Addded'
-        
-  //       }}
-  //       return msg;
-  //   })
-  //   Alert.info(alertMsg,4000)
-
-  // },[])
   
-  const handleDelete = useCallback(
-    async (msgId) => {
+const handleDelete = useCallback(
+    async (msgId, file) => {
       // eslint-disable-next-line no-alert
       if (!window.confirm('Delete this message?')) {
         return;
@@ -138,30 +110,54 @@ const Message = () => {
 
         Alert.info('Message has been deleted');
       } catch (err) {
-        Alert.error(err.message,4000);
+       return Alert.error(err.message,4000);
       }
 
-      // if (file) {
-      //   try {
-      //     const fileRef = storageRef(storage, file.url);
-      //     await deleteObject(fileRef);
-      //   } catch (err) {
-      //     Alert.error(err.message);
-      //   }
-      // }
+      if (file) {
+        try {
+          const fileRef = storage.refFromURL(file.url);
+             await  fileRef.delete();
+           } catch (err) {
+          Alert.error(err.message);
+        }
+      }
     },
     [chatId, messages]
   );
+  const renderMessages = () => {
+    const groups = groupBy(messages, item =>
+      new Date(item.createdAt).toDateString()
+    );
+
+    const items = [];
+
+    Object.keys(groups).forEach(date => {
+      items.push(
+        <li key={date} className="text-center mb-1 padded">
+          {date}
+        </li>
+      );
+
+      const msgs = groups[date].map(msg => (
+        <MessageItem
+          key={msg.id}
+          message={msg}
+          handleAdmin={handleAdmin}
+          handleLike={handleLike}
+          handleDelete={handleDelete}
+        />
+      ));
+
+      items.push(...msgs);
+    });
+
+    return items;
+  };
+
 
   return <ul className='msg-list custom-scroll'>
     {isChatEmpty && <li>NO Message Yet</li>}
-    {canShowMessages && messages.map( msg=><MessageItem 
-    key={msg.id} 
-    message={msg}
-     handleAdmin={handleAdmin}
-     handleLike={handleLike}
-     handleDelete={handleDelete}
-     />) }
+    {canShowMessages && renderMessages() }
 
 
 

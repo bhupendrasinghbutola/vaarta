@@ -12,14 +12,15 @@ import ImgBtnModal from './ImgBtnModal'
 
 
 const renderFileMessage = file => {
-  if (file.contentType.includes('image')) {
+  // console.log('file',file.contentType)
+  if (file.contentType?.includes('image')) {
     return  <div className="height-220">
         <ImgBtnModal src={file.url} fileName={file.name} />
       </div>
     
   }
 
-  if (file.contentType.includes('audio')) {
+  if (file.contentType?.includes('audio')) {
     return (
       // eslint-disable-next-line jsx-a11y/media-has-caption
       <audio controls>
@@ -100,7 +101,7 @@ const MessageItem = ({ message, handleAdmin, handleLike, handleDelete }) => {
       </div>
 
       <div>
-        {text && <span className="word-breal-all">{text}</span>}
+        {text && <span className="word-break-all">{text}</span>}
         {file && renderFileMessage(file)}
       </div>
     </li>

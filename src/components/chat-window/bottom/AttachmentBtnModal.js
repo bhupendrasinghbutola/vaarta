@@ -14,7 +14,7 @@ const AttachmentBtnModal = ({ afterUpload }) => {
   const [fileList, setFileList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const onChange = fileArr => {
+  const onChange = (fileArr) => {
     const filtered = fileArr
       .filter(el => el.blobFile.size <= MAX_FILE_SIZE)
       .slice(0, 5);
