@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router';
 import { InputGroup, Icon, Modal, Button, Uploader, Alert } from 'rsuite';
-// import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useModalState } from '../../../misc/custom-hooks';
 import { storage } from '../../../misc/firebase';
 
@@ -28,7 +27,7 @@ const AttachmentBtnModal = ({ afterUpload }) => {
       const uploadPromises = fileList.map(f => {
         return storage
         .ref(`/chat/${chatId}`)
-        .child(Date.now + f.name)
+        .child(Date.now() + f.name)
         .put(f.blobFile, {cacheControl: `public, max-age=${3600 * 24 * 3}`,
     });
           });
