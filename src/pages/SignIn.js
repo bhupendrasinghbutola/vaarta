@@ -1,6 +1,6 @@
 import React from 'react'
 import firebase from 'firebase/app'
- import { Container, Grid, Row, Col, Panel,Button,Icon, Alert } from 'rsuite'
+ import { Container, Grid, Row, Col, Panel,Button,Icon, Alert, Footer } from 'rsuite'
 import {auth, database} from '../misc/firebase'
  
 
@@ -60,7 +60,7 @@ try {
   <Icon  icon="google"/> Continue with Google
 </Button>
 
-
+<Footer > Developed by Bhupendra Singh Butola </Footer>
 
 </div>
 

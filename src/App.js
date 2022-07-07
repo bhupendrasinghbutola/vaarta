@@ -11,6 +11,7 @@ import Home from './pages/Home';
 import { ProfileProvider } from './context/profile.context';
 
 
+
 function App() {
   return <ProfileProvider>
     <Switch>
@@ -21,6 +22,7 @@ function App() {
     
       <PrivateRoute   path="/"> 
       <Home/>
+      
       </PrivateRoute>
     
     
