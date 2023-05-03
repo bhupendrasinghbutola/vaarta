@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
 import 'rsuite/dist/styles/rsuite-default.min.css';
-import './styles/main.scss';
+import './styles/main.css';
 // imported Routes in place of Switch
  import {Switch} from 'react-router-dom';
 import SignIn from './pages/SignIn';

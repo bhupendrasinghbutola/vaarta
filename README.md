@@ -68,3 +68,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+note:
+1. cra is dead , update it to use any other build method VUE or use Next.js to optimize the code which also has integrate with SPA(server side rendering).
+2.sass is deprecatd :can use lower version of node or can use any other platfornm similar to sass.
+3.use (axios) in place od fetch to get the smooth rendering in the time of rendering the data. 
+4. use async await in place of promise in the component/rooms/ChatRoomLists.js

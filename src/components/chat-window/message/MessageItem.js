@@ -87,11 +87,12 @@ const MessageItem = ({ message, handleAdmin, handleLike, handleDelete }) => {
           isVisible={canShowIcons}
           iconName="heart"
           tooltip="Like this message"
-          onClick={() => handleLike(message.id)}
+          onClick={() => handleLike(message.Id)}
           badgeContent={likeCount}
         />
         {isAuthor && (
           <IconBtnControl
+          
             isVisible={canShowIcons}
             iconName="close"
             tooltip="Delete this message"

@@ -24,7 +24,8 @@ try {
 } catch (err) {
   Alert.info(err.message,4000);
   
-}// console.log('result',result);
+}
+
 };
 
    const onFacebookSignIn =()=>{
@@ -78,3 +79,5 @@ try {
 }
 
 export default SignIn
+
+

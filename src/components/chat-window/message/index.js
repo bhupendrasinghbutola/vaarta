@@ -99,11 +99,11 @@ const Message = () => {
 
   const handleLike = useCallback(async msgId => {
     const { uid } = auth.currentUser;
-    const messageRef = database.ref(`/messages/${msgId}`)
+    const messageRef = database.ref(`/messages/${msgId}`);
 
     let alertMsg;
 
-    await messageRef.transaction(messageRef, msg => {
+    await messageRef.transaction(msg => {
       if (msg) {
         if (msg.likes && msg.likes[uid]) {
           msg.likeCount -= 1;
