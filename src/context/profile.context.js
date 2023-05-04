@@ -1,6 +1,6 @@
 import React,{ createContext, useState,useContext, useEffect } from "react";
 import firebase  from "firebase";
-import { auth, database } from "../misc/firebase";
+import { auth, database, messaging } from "../misc/firebase";
 
 
 export  const isOfflineForDatabase = {
@@ -24,7 +24,8 @@ export const ProfileProvider = ({children}) => {
     useEffect(() =>{ 
         let userRef;
         let userStatusRef;
-        const authUnSubs=  auth.onAuthStateChanged(authObj=>{
+        let tokenRefreshUnsub;
+        const authUnSubs=  auth.onAuthStateChanged(async authObj=>{
               // console.log('authobj', authObj);
               if(authObj){
 
@@ -58,6 +59,36 @@ export const ProfileProvider = ({children}) => {
                             userStatusRef.set(isOnlineForDatabase);
                         });
                     });
+
+if(messaging){
+    try {
+        const currentToken= await messaging.getToken();
+        if(currentToken){
+            // todo
+            await database.ref(`/fcm_tokens/$(currentToken)`).set(authObj.uid);
+        }
+    } catch (err) {
+        // eslint-disable-next-line no-console
+        console.log('An error occured while retrieving token.',err);
+    }
+}
+    tokenRefreshUnsub=messaging.onTokenRefresh(async ()=>{
+        try {
+            const currentToken= await messaging.getToken();
+            if(currentToken){
+                await database
+                .ref(`/fcm_tokens/${currentToken}`)
+                .set(authObj.uid);
+        
+            }
+        } catch (err) {
+            console.log('An error occured while retrieving token.',err);
+            
+        }
+    })
+
+
+                    
                     
   
                   }else{
@@ -65,6 +96,9 @@ export const ProfileProvider = ({children}) => {
                       
               if(userRef){
                           userRef.off();
+                      }
+                      if(tokenRefreshUnsub){
+                        tokenRefreshUnsub();
                       }
                       if(userStatusRef){
                         userStatusRef.off();
@@ -86,6 +120,12 @@ export const ProfileProvider = ({children}) => {
 if(userStatusRef){
     userStatusRef.off();
 }
+if(tokenRefreshUnsub){
+    tokenRefreshUnsub();
+}
+
+
+
 }
 },[]);
        

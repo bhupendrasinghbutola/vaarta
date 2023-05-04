@@ -2,7 +2,7 @@ import firebase from "firebase/app";
 import 'firebase/auth';
 import 'firebase/database';
 import 'firebase/storage';
-// import App from "../App";
+import "firebase/messaging";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -22,4 +22,12 @@ const app = firebase.initializeApp(config);
 export const auth =app.auth();
 export const database= app.database();
 export const storage =app.storage();
+export const messaging=firebase.messaging.isSupported()? app.messaging():null;
+if(messaging){
+  messaging.usePublicVapidKey('BKP9RCl0565_9q8TUHcA3CtGlwT13UfjtS3stHEmary9Rs27gC7o0Nqco3oiTk9nJW21SuBINVPLECICd2Z2eXE');
+  messaging.onMessage((data)=>{
+    console.log(data);
+  })
+
+}
 
